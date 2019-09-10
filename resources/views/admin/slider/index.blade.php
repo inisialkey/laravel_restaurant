@@ -3,8 +3,8 @@
 @section('title', 'Slider')
 
 @push('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 @endpush
 
 @section('content')
@@ -13,16 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <a href="{{ route('slider.create') }}" class="btn btn-info">Add New</a>
-                @if (session('successMsg'))
-                <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="Close" onclick="this.parentElement.style.display='none'">
-                        <i class="material-icons">close</i>
-                    </button>
-                    <span>
-                        <b>Success - </b> {{ session('successMsg') }}
-                    </span>
-                </div>
-                @endif
+                @include('layouts.partial.msg')
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title ">All Slider</h4>
@@ -49,17 +40,22 @@
                                     <th>
                                         updated_at
                                     </th>
+                                    <th>
+                                        Action
+                                    </th>
                                 </thead>
                                 <tbody>
                                     @foreach ($sliders as $key=>$slider)
-                                        <tr>
-                                            <td>{{ $key+1 }}</td>
-                                            <td>{{ $slider->title }}</td>
-                                            <td>{{ $slider->sub_title }}</td>
-                                            <td>{{ $slider->image }}</td>
-                                            <td>{{ $slider->created_at }}</td>
-                                            <td>{{ $slider->updated_at }}</td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $slider->title }}</td>
+                                        <td>{{ $slider->sub_title }}</td>
+                                        <td>{{ $slider->image }}</td>
+                                        <td>{{ $slider->created_at }}</td>
+                                        <td>{{ $slider->updated_at }}</td>
+                                        <td><a href="{{ route('slider.edit', $slider->id) }}"
+                                                class="btn btn-info btn-sm">Edit</a></td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -73,11 +69,12 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#slider').DataTable();
-        } );
-    </script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#slider').DataTable();
+    });
+
+</script>
 @endpush
