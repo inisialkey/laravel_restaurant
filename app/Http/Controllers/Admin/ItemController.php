@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Item;
 
 class ItemController extends Controller
 {
@@ -14,7 +15,8 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = Item::all();
+        return view('admin.item.index', compact('items'));
     }
 
     /**
@@ -24,7 +26,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.item.create', compact('categories'));
     }
 
     /**
