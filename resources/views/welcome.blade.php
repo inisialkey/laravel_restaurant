@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/flexslider.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/pricing.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <style>
         @foreach($sliders as $key=>$slider)
         .owl-carousel .owl-wrapper, .owl-carousel .owl-item:nth-child({{ $key+1}}) .item
@@ -652,36 +654,37 @@
 
 
     <section class="reservation">
-        <img class="img-responsive section-icon hidden-sm hidden-xs" src="images/icons/reserve_color.png">
+        <img class="img-responsive section-icon hidden-sm hidden-xs" src="{{ asset('frontend/images/icons/reserve_color.png') }}">
         <div class="wrapper">
             <div class="container-fluid">
                 <div class=" section-content">
                     <div class="row">
                         <div class="col-md-5 col-sm-6">
-                            <form class="reservation-form" method="post" action="reserve.php">
+                            <form class="reservation-form" method="post" action="{{ route('reservation.reserve') }}">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control reserve-form empty iconified"
-                                                name="name" id="name" required="required"
+                                                name="name" id="name"
                                                 placeholder="  &#xf007;  Name">
                                         </div>
                                         <div class="form-group">
                                             <input type="email" name="email"
                                                 class="form-control reserve-form empty iconified" id="email"
-                                                required="required" placeholder="  &#xf1d8;  e-mail">
+                                                placeholder="  &#xf1d8;  e-mail">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
                                             <input type="tel" class="form-control reserve-form empty iconified"
-                                                name="phone" id="phone" required="required"
+                                                name="phone" id="phone"
                                                 placeholder="  &#xf095;  Phone">
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control reserve-form empty iconified"
-                                                name="datepicker" id="datepicker" required="required"
+                                                name="dateandtime" id="datetimepicker1"
                                                 placeholder="&#xf017;  Time">
                                         </div>
                                     </div>
@@ -689,7 +692,7 @@
                                     <div class="col-md-12 col-sm-12">
                                         <textarea type="text" name="message"
                                             class="form-control reserve-form empty iconified" id="message" rows="3"
-                                            required="required" placeholder="  &#xf086;  We're listening"></textarea>
+                                           placeholder="  &#xf086;  We're listening"></textarea>
                                     </div>
 
                                     <div class="col-md-12 col-sm-12">
@@ -762,21 +765,13 @@
         </div>
     </section>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div id="map-canvas"></div>
-        </div>
-    </div>
-
-
-
     <section class="contact-form">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
                     <div class="row">
-                        <form class="contact-form" method="post" action="contact.php">
-
+                        <form class="contact-form" method="post" action="{{ route('contact.send') }}">
+                            @csrf
                             <div class="col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <input name="name" type="text" class="form-control" id="name" required="required"
@@ -834,6 +829,26 @@
     <script type="text/javascript" src="{{ asset('frontend/js/jquery.hoverdir.js') }}"></script>
     <script type="text/javascript" src="{{ asset('frontend/js/jQuery.scrollSpeed.js') }}"></script>
     <script src="{{ asset('frontend/js/script.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <script>
+                toastr.error('{{ $error }}');
+            </script>
+        @endforeach
+    @endif
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format : "dd MM yyyy - HH:11 P",
+                showMeridian : true,
+                autoClose : true,
+                todayBtn : true
+            });
+        })
+    </script>
+    {!! Toastr::message() !!}
 
 
 </body>
